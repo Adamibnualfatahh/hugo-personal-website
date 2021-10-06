@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://example.org/</loc>
+    <lastmod>2021-08-23T11:16:57+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/blog/</loc>
+    <lastmod>2021-08-23T11:16:57+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/create-html-in-php/</loc>
+    <lastmod>2021-08-23T11:16:57+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/membuat-css-di-dalam-html/</loc>
+    <lastmod>2021-08-21T05:48:22+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/projects/info/</loc>
+    <lastmod>2021-08-17T21:11:43+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/projects/</loc>
+    <lastmod>2021-08-17T21:11:43+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/learn-json-go/</loc>
+    <lastmod>2021-08-17T20:49:48+07:00</lastmod>
+  </url><url>
+    <loc>http://example.org/categories/</loc>
+  </url><url>
+    <loc>http://example.org/tags/</loc>
+  </url>
+</urlset>

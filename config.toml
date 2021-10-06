@@ -1,0 +1,6 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Adam Ibnu'
+theme = "PaperMod"
+[permalinks]  
+    blog = ":slug"

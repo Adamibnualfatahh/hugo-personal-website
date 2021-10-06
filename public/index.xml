@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adam Ibnu</title>
+    <link>http://example.org/</link>
+    <description>Recent content on Adam Ibnu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Aug 2021 11:16:57 +0700</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CREATE HTML IN PHP </title>
+      <link>http://example.org/create-html-in-php/</link>
+      <pubDate>Mon, 23 Aug 2021 11:16:57 +0700</pubDate>
+      
+      <guid>http://example.org/create-html-in-php/</guid>
+      <description>Membuat HTML di dalam PHP </description>
+    </item>
+    
+    <item>
+      <title>Membuat CSS di dalam HTML</title>
+      <link>http://example.org/membuat-css-di-dalam-html/</link>
+      <pubDate>Sat, 21 Aug 2021 05:48:22 +0700</pubDate>
+      
+      <guid>http://example.org/membuat-css-di-dalam-html/</guid>
+      <description>source : Kopiding
+ Pemanasan Tampilan atau interface memiliki peran penting dalam suatu aplikasi tak terkecuali aplikasi berupa website. Hal ini karena tampilan merupakan salah satu faktor bagaimana suatu website bisa menarik para pengunjung.
+Dengan adanya tampilan yang cantik maka pengunjung akan betah berlama-lama di website kita. Semakin cantik tampilan website maka pengunjung akan semakin tertarik menelusuri berbagai konten yang ada dalam website kita.
+Untuk mengatur tampilan website dalam HTML perlu adanya kerjasama dengan yang namanya CSS.</description>
+    </item>
+    
+    <item>
+      <title>Info Film</title>
+      <link>http://example.org/projects/info/</link>
+      <pubDate>Tue, 17 Aug 2021 21:11:43 +0700</pubDate>
+      
+      <guid>http://example.org/projects/info/</guid>
+      <description>Projek ini saya buat ketika belajar tentang API , saya buat web ini dengan bantuan framework dari bootstrap dan menggunakan teknologi ajax
+ Silahkan dicoba https://www.adamibnu.xyz</description>
+    </item>
+    
+    <item>
+      <title>Learn JSON &amp; Go</title>
+      <link>http://example.org/learn-json-go/</link>
+      <pubDate>Tue, 17 Aug 2021 20:49:48 +0700</pubDate>
+      
+      <guid>http://example.org/learn-json-go/</guid>
+      <description>Parsing JSON in Go To start breaking down these techniques, let&amp;rsquo;s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.
+{ &amp;#34;name&amp;#34;: &amp;#34;example&amp;#34;, &amp;#34;numbers&amp;#34;: [ 1, 2, 3, 4 ], &amp;#34;nested&amp;#34;: { &amp;#34;isit&amp;#34;: true, &amp;#34;description&amp;#34;: &amp;#34;a nested json&amp;#34; } } This JSON is a useful example because it addresses several types of data, including nesting JSON.</description>
+    </item>
+    
+  </channel>
+</rss>

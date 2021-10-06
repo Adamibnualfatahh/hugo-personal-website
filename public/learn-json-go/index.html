@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="favico" href="favicon/favicon-32x32.png">
+<meta name="robots" content="index, follow">
+<title>Learn JSON &amp; Go | Adam Ibnu</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Parsing JSON in Go To start breaking down these techniques, let&rsquo;s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.
+{ &#34;name&#34;: &#34;example&#34;, &#34;numbers&#34;: [ 1, 2, 3, 4 ], &#34;nested&#34;: { &#34;isit&#34;: true, &#34;description&#34;: &#34;a nested json&#34; } } This JSON is a useful example because it addresses several types of data, including nesting JSON.">
+<meta name="author" content="Adam Ibnu">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<link rel="canonical" href="http://example.org/learn-json-go/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.e2214f6690aaf9c3dffa406ad7cb650beb897714bd1000e2bce4aceead836d42.css" integrity="sha256-4iFPZpCq&#43;cPf&#43;kBq18tlC&#43;uJdxS9EADivOSs7q2DbUI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.87.0" />
+<meta property="og:title" content="Learn JSON &amp; Go" />
+<meta property="og:description" content="Parsing JSON in Go To start breaking down these techniques, let&rsquo;s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.
+{ &#34;name&#34;: &#34;example&#34;, &#34;numbers&#34;: [ 1, 2, 3, 4 ], &#34;nested&#34;: { &#34;isit&#34;: true, &#34;description&#34;: &#34;a nested json&#34; } } This JSON is a useful example because it addresses several types of data, including nesting JSON." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/learn-json-go/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-08-17T20:49:48&#43;07:00" />
+<meta property="article:modified_time" content="2021-08-17T20:49:48&#43;07:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learn JSON &amp; Go"/>
+<meta name="twitter:description" content="Parsing JSON in Go To start breaking down these techniques, let&rsquo;s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.
+{ &#34;name&#34;: &#34;example&#34;, &#34;numbers&#34;: [ 1, 2, 3, 4 ], &#34;nested&#34;: { &#34;isit&#34;: true, &#34;description&#34;: &#34;a nested json&#34; } } This JSON is a useful example because it addresses several types of data, including nesting JSON."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "http://example.org/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Learn JSON \u0026 Go",
+      "item": "http://example.org/learn-json-go/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Learn JSON \u0026 Go",
+  "name": "Learn JSON \u0026 Go",
+  "description": "Parsing JSON in Go To start breaking down these techniques, let\u0026rsquo;s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.\n{ \u0026#34;name\u0026#34;: \u0026#34;example\u0026#34;, \u0026#34;numbers\u0026#34;: [ 1, 2, 3, 4 ], \u0026#34;nested\u0026#34;: { \u0026#34;isit\u0026#34;: true, \u0026#34;description\u0026#34;: \u0026#34;a nested json\u0026#34; } } This JSON is a useful example because it addresses several types of data, including nesting JSON.",
+  "keywords": [
+    
+  ],
+  "articleBody": "Parsing JSON in Go To start breaking down these techniques, let’s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.\n{ \"name\": \"example\", \"numbers\": [ 1, 2, 3, 4 ], \"nested\": { \"isit\": true, \"description\": \"a nested json\" } } This JSON is a useful example because it addresses several types of data, including nesting JSON. This nesting will help highlight differences in the parsing methods of maps and structs.\nParsing JSON with Maps We will first start parsing our JSON into a map. Once we’ve parsed the JSON, we can begin breaking down the code and explaining how to access our data once it is within a map.\nThe code snippet below is what we will use to parse our JSON.\npackage main import ( \"encoding/json\" \"fmt\" ) func main() { // Create a map to parse the JSON \tvar data map[string]interface{} // Define a JSON string \tj := `{\"name\":\"example\",\"numbers\":[1,2,3,4],\"nested\":{\"isit\":true,\"description\":\"a nested json\"}}` // Parse our JSON string \terr := json.Unmarshal([]byte(j), \u0026data) if err != nil { fmt.Printf(\"Error parsing JSON string - %s\", err) } // Print out one of our JSON values \tfmt.Printf(\"Name is %s\", data[\"name\"].(string)) } To parse the JSON, we can see from the code we first created a map[string]interface{} called data. Then we took our JSON string and used the Unmarshal() function to populate the data map. So far, this seems pretty easy and straightforward.\nAs far as parsing goes, the nice thing about this method is we don’t need to know much about the JSON structure to parse it. Everything goes into the map, and because the map is of interface{} types, it can hold whatever we want.\nThat concept of using an interface{} type is where things get complicated.\nIn the example above, we parse the JSON and then use Printf() to print a JSON field. The way we print that field, though, is very unsafe.\nThe first problem is, by just tossing data[\"name\"] into the Printf() function, we are assuming that the field is actually within the JSON. But what if it isn’t? The bad news is, our program would panic because we tried to access a value that doesn’t exist.\nTo access our data in a way that checks for its existence, we need to do the following.\n// Print out one of our JSON values \tn, ok := data[\"name\"] if !ok { // access it another way \tn = \"default\" } fmt.Printf(\"Name is %s\", n.(string)) This method uses the “comma ok” pattern to determine if the map has a key named name. If it does, the ok value will be true; if not, the ok value will be false. This pattern makes our code safe from missing map values, but it’s still not 100% safe.\nOur code above uses type assertion to declare that the name value is a string type. But what if it’s not a string? JSON allows for many different types. When parsing with maps, the values are not type enforced. Meaning, everything is an interface until you tell it otherwise. Suppose we were to parse a JSON where the name key held a boolean instead of a string. Our code, as it stands today, would once again panic.\nIt is unsafe to assume you know the type of value a JSON map is going to hold. This rule is especially true when working with API’s where users provide the input JSON. To safely assert type, we need to use the “comma ok” pattern once again.\n// Print out one of our JSON values \tn, ok := data[\"name\"] if !ok { // access it another way \tn = \"default\" } v, ok := n.(string) if !ok { // figure out type another way \tv = \"default\" } fmt.Printf(\"Name is %s\", v) Now our code is finally safe to access the name data without any panics. But that took a lot of work for just one field. What does it take for a more complex field like our numbers list? Let’s take a look.\n// Print out the JSON Numbers \tvar nums []int i, ok := data[\"numbers\"].([]interface{}) if ok { for _, v := range i { x, ok := v.(float64) if !ok { // set to default \tnums = []int{} break } nums = append(nums, int(x)) } } fmt.Printf(\"Numbers are\") for _, v := range nums { fmt.Printf(\" %d\", v) } fmt.Printf(\"\\n\") Our numbers are a lot more complicated because we have an array within our JSON. Any array is parsed and placed into the map as an array of interfaces. In this example, we are both checking for key existence and type asserting it’s value to a []interface{} with a single “comma ok” check.\nBut our assertions don’t stop there; now we need to loop through the values and type assert each value individually. Where this gets tricky is when our values are not numbers. Technically, our JSON could have mixed types in this array; it could provide us with integers and strings. As we check each value individually, we also need to put in logic that verifies the whole list’s integrity.\nWhen it comes to complicated JSON’s like this, maps can be very problematic when using the data. The reason is that you have to account for all sorts of variations in your code. If you forget to type assert one value or forget to check if a key exists, your program will crash.\nParsing JSON with structs When parsing JSON with maps, it is not necessary to define the structure of the JSON in code. With structs, the opposite is true. When using structs, it’s vital to describe all of the JSON elements needed in code.\nLet’s look at a simple parser that prints the name field as we did with the previous example.\npackage main import ( \"encoding/json\" \"fmt\" ) // Example is our main data structure used for JSON parsing type Example struct { Name string `json:\"name\"` Numbers []int `json:\"numbers\"` Nested Nested `json:\"nested\"` } // Nested is an embedded structure within Example type Nested struct { IsIt bool `json:\"isit\"` Description string `json:\"description\"` } func main() { // Define a JSON string \tj := `{\"name\":\"example\",\"numbers\":[1,2,3,4],\"nested\":{\"isit\":true,\"description\":\"a nested json\"}}` // Parse JSON string into data object \tvar data Example err := json.Unmarshal([]byte(j), \u0026data) if err != nil { fmt.Printf(\"Error parsing JSON string - %s\", err) } // Print the name \tfmt.Printf(\"Name is %s\", data.Name) } A significant difference in this example vs. our original map example is that this code is safe. No matter what the JSON input looks like, our code is panic free.\nWhen using structs to parse JSON, the JSON parser itself handles all of the type assertions. When we define our structs, we set our types; if these fields hold any other type, our Unmarshal() call will return an error.\nLet’s take a closer look at our struct definition.\n// Example is our main data structure used for JSON parsing type Example struct { Name string `json:\"name\"` Numbers []int `json:\"numbers\"` Nested Nested `json:\"nested\"` } // Nested is an embedded structure within Example type Nested struct { IsIt bool `json:\"isit\"` Description string `json:\"description\"` } In our struct, we can see there is a Name field defined as a string. We can also see we are using the JSON parsers tags to associate the Name struct field with the name JSON field. These definitions are essential, the tags help the JSON parser figure out where a JSON field’s data needs to go, and the type within the struct is what enforces whether the parser can populate the JSON data within that field.\nWhen parsing JSON with structs, all the work to perform type assertions is upfront, a safer and more comfortable way of working with JSON. To drive this point home, we can look at how easy it is to access the other JSON elements via structs.\n// Print the name \tfmt.Printf(\"Name is %s\\n\", data.Name) // Print the Numbers \tfmt.Printf(\"Numbers include\") for _, v := range data.Numbers { fmt.Printf(\" %d\", v) } fmt.Printf(\"\\n\") // Print the Description \tfmt.Printf(\"Description is %s\", data.Nested.Description) As we can see, the way to access data is simple. Using structs, we can use the data assuming it is either there or, worst case, a default value such as an empty list or string.\nWith it being so easy to use structs, it might seem like we should always use structs, but it’s not that simple.\nSummary: When to use Maps vs. Structs As we saw from this article, using structs are a safe and easy way to access JSON data. We can also see that using maps is generally unsafe and require extra work to use the data safely once parsed.\nSo why ever use maps instead of structs? The answer is simple.\nWhen using structs, we must define every element within the JSON into the struct. We have to know the field name and data type of each JSON element while writing our code. This limit is sufficient for most use cases, APIs, configuration, or anything else where the data names and types are static.\nHowever, there are times when we don’t know the JSON structure in advance when we need to parse an unknown JSON; that’s where maps come in handy. An example of this could be an API where the server must respond to the client with all the original request elements. If we used a struct for this case, the parser would drop any unknown fields.\nWhile use cases that require maps are somewhat limited, they exist, and it’s useful to know when and when not to use this method.\n",
+  "wordCount" : "1613",
+  "inLanguage": "en",
+  "datePublished": "2021-08-17T20:49:48+07:00",
+  "dateModified": "2021-08-17T20:49:48+07:00",
+  "author":{
+    "@type": "Person",
+    "name": "Adam Ibnu"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/learn-json-go/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Adam Ibnu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+        }
+    }
+</script>
+<noscript>
+    <style type="text/css">
+        .theme-toggle,
+        .top-link {
+            display: none;
+        }
+    </style>
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <p class="logo">
+            <a href="http://example.org/">Adam Ibnu</a>
+            <span class="theme-toggle">
+                <a id="theme-toggle">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </a>
+            </span>
+        </p>
+   
+        </button>
+        
+        <ul class="menu" id="menu" onscroll="menu_on_scroll()">
+        </ul>
+        <ul class="menu" id="menu">
+            <li>
+                <button>
+                    <a href="/blog">Blog</a>
+                </button>
+            </li>
+            <li>
+                <button>
+                    <a href="/projects">Project</a>
+                </button>
+            </li>
+            <li> 
+                <button>
+                    <a href="layouts/partials/tentang.html">About</a>
+                </button>
+            </li>
+        </ul>
+    </nav>
+</header><main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1>
+      Learn JSON &amp; Go
+    </h1>
+   
+    <h1 class="post-title">
+    </h1>
+    <div class="post-meta">August 17, 2021&nbsp;·&nbsp;Adam Ibnu
+</div>
+  </header> 
+  <div class="post-content"><h2 id="parsing-json-in-go">Parsing JSON in Go<a hidden class="anchor" aria-hidden="true" href="#parsing-json-in-go">#</a></h2>
+<p>To start breaking down these techniques, let&rsquo;s first establish the differences between parsing a JSON into a map and parsing into a struct. We can use the following JSON as an example throughout our article.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;example&#34;</span>,
+	<span style="color:#f92672">&#34;numbers&#34;</span>: [
+		<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>
+	],
+	<span style="color:#f92672">&#34;nested&#34;</span>: {
+		<span style="color:#f92672">&#34;isit&#34;</span>: <span style="color:#66d9ef">true</span>,
+		<span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;a nested json&#34;</span>
+	}
+}
+</code></pre></div><p>This JSON is a useful example because it addresses several types of data, including nesting JSON. This nesting will help highlight differences in the parsing methods of maps and structs.</p>
+<h3 id="parsing-json-with-maps">Parsing JSON with Maps<a hidden class="anchor" aria-hidden="true" href="#parsing-json-with-maps">#</a></h3>
+<p>We will first start parsing our JSON into a map. Once we&rsquo;ve parsed the JSON, we can begin breaking down the code and explaining how to access our data once it is within a map.</p>
+<p>The code snippet below is what we will use to parse our JSON.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// Create a map to parse the JSON
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}
+
+	<span style="color:#75715e">// Define a JSON string
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">`{&#34;name&#34;:&#34;example&#34;,&#34;numbers&#34;:[1,2,3,4],&#34;nested&#34;:{&#34;isit&#34;:true,&#34;description&#34;:&#34;a nested json&#34;}}`</span>
+
+	<span style="color:#75715e">// Parse our JSON string
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>([]byte(<span style="color:#a6e22e">j</span>), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">data</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Error parsing JSON string - %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#75715e">// Print out one of our JSON values
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Name is %s&#34;</span>, <span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;name&#34;</span>].(<span style="color:#66d9ef">string</span>))
+}
+</code></pre></div><p>To parse the JSON, we can see from the code we first created a <code>map[string]interface{}</code> called <code>data</code>. Then we took our JSON string and used the <code>Unmarshal()</code> function to populate the <code>data</code> map. So far, this seems pretty easy and straightforward.</p>
+<p>As far as parsing goes, the nice thing about this method is we don&rsquo;t need to know much about the JSON structure to parse it. Everything goes into the map, and because the map is of <code>interface{}</code> types, it can hold whatever we want.</p>
+<p>That concept of using an <code>interface{}</code> type is where things get complicated.</p>
+<p>In the example above, we parse the JSON and then use <code>Printf()</code> to print a JSON field. The way we print that field, though, is very unsafe.</p>
+<p>The first problem is, by just tossing <code>data[&quot;name&quot;]</code> into the <code>Printf()</code> function, we are assuming that the field is actually within the JSON. But what if it isn&rsquo;t? The bad news is, our program would panic because we tried to access a value that doesn&rsquo;t exist.</p>
+<p>To access our data in a way that checks for its existence, we need to do the following.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#75715e">// Print out one of our JSON values
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;name&#34;</span>]
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#75715e">// access it another way
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">n</span> = <span style="color:#e6db74">&#34;default&#34;</span>
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Name is %s&#34;</span>, <span style="color:#a6e22e">n</span>.(<span style="color:#66d9ef">string</span>))
+</code></pre></div><p>This method uses the &ldquo;comma ok&rdquo; pattern to determine if the map has a key named <code>name</code>. If it does, the <code>ok</code> value will be <code>true</code>; if not, the <code>ok</code> value will be <code>false</code>. This pattern makes our code safe from missing map values, but it&rsquo;s still not 100% safe.</p>
+<p>Our code above uses type assertion to declare that the <code>name</code> value is a string type. But what if it&rsquo;s not a string? JSON allows for many different types. When parsing with maps, the values are not type enforced. Meaning, everything is an interface until you tell it otherwise. Suppose we were to parse a JSON where the <code>name</code> key held a boolean instead of a string. Our code, as it stands today, would once again panic.</p>
+<p>It is unsafe to assume you know the type of value a JSON map is going to hold. This rule is especially true when working with API&rsquo;s where users provide the input JSON. To safely assert type, we need to use the &ldquo;comma ok&rdquo; pattern once again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#75715e">// Print out one of our JSON values
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;name&#34;</span>]
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#75715e">// access it another way
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">n</span> = <span style="color:#e6db74">&#34;default&#34;</span>
+	}
+	<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.(<span style="color:#66d9ef">string</span>)
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#75715e">// figure out type another way
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">v</span> = <span style="color:#e6db74">&#34;default&#34;</span>
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Name is %s&#34;</span>, <span style="color:#a6e22e">v</span>)
+</code></pre></div><p>Now our code is finally safe to access the name data without any panics. But that took a lot of work for just one field. What does it take for a more complex field like our numbers list? Let&rsquo;s take a look.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#75715e">// Print out the JSON Numbers
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;numbers&#34;</span>].([]<span style="color:#66d9ef">interface</span>{})
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">i</span> {
+			<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">v</span>.(<span style="color:#66d9ef">float64</span>)
+			<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+				<span style="color:#75715e">// set to default
+</span><span style="color:#75715e"></span>				<span style="color:#a6e22e">nums</span> = []<span style="color:#66d9ef">int</span>{}
+				<span style="color:#66d9ef">break</span>
+			}
+			<span style="color:#a6e22e">nums</span> = append(<span style="color:#a6e22e">nums</span>, int(<span style="color:#a6e22e">x</span>))
+
+		}
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Numbers are&#34;</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">nums</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34; %d&#34;</span>, <span style="color:#a6e22e">v</span>)
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
+</code></pre></div><p>Our numbers are a lot more complicated because we have an array within our JSON. Any array is parsed and placed into the map as an array of interfaces. In this example, we are both checking for key existence and type asserting it&rsquo;s value to a <code>[]interface{}</code> with a single &ldquo;comma ok&rdquo; check.</p>
+<p>But our assertions don&rsquo;t stop there; now we need to loop through the values and type assert each value individually. Where this gets tricky is when our values are not numbers. Technically, our JSON could have mixed types in this array; it could provide us with integers and strings. As we check each value individually, we also need to put in logic that verifies the whole list&rsquo;s integrity.</p>
+<p>When it comes to complicated JSON&rsquo;s like this, maps can be very problematic when using the data. The reason is that you have to account for all sorts of variations in your code. If you forget to type assert one value or forget to check if a key exists, your program will crash.</p>
+<h3 id="parsing-json-with-structs">Parsing JSON with structs<a hidden class="anchor" aria-hidden="true" href="#parsing-json-with-structs">#</a></h3>
+<p>When parsing JSON with maps, it is not necessary to define the structure of the JSON in code. With structs, the opposite is true. When using structs, it&rsquo;s vital to describe all of the JSON elements needed in code.</p>
+<p>Let&rsquo;s look at a simple parser that prints the name field as we did with the previous example.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#75715e">// Example is our main data structure used for JSON parsing
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Example</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Name</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+	<span style="color:#a6e22e">Numbers</span> []<span style="color:#66d9ef">int</span>  <span style="color:#e6db74">`json:&#34;numbers&#34;`</span>
+	<span style="color:#a6e22e">Nested</span>  <span style="color:#a6e22e">Nested</span> <span style="color:#e6db74">`json:&#34;nested&#34;`</span>
+}
+
+<span style="color:#75715e">// Nested is an embedded structure within Example
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Nested</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">IsIt</span>        <span style="color:#66d9ef">bool</span>   <span style="color:#e6db74">`json:&#34;isit&#34;`</span>
+	<span style="color:#a6e22e">Description</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;description&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// Define a JSON string
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">`{&#34;name&#34;:&#34;example&#34;,&#34;numbers&#34;:[1,2,3,4],&#34;nested&#34;:{&#34;isit&#34;:true,&#34;description&#34;:&#34;a nested json&#34;}}`</span>
+
+	<span style="color:#75715e">// Parse JSON string into data object
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> <span style="color:#a6e22e">Example</span>
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>([]byte(<span style="color:#a6e22e">j</span>), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">data</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Error parsing JSON string - %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#75715e">// Print the name
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Name is %s&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Name</span>)
+}
+</code></pre></div><p>A significant difference in this example vs. our original map example is that this code is safe. No matter what the JSON input looks like, our code is panic free.</p>
+<p>When using structs to parse JSON, the JSON parser itself handles all of the type assertions. When we define our structs, we set our types; if these fields hold any other type, our <code>Unmarshal()</code> call will return an error.</p>
+<p>Let&rsquo;s take a closer look at our struct definition.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// Example is our main data structure used for JSON parsing
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Example</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Name</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+	<span style="color:#a6e22e">Numbers</span> []<span style="color:#66d9ef">int</span>  <span style="color:#e6db74">`json:&#34;numbers&#34;`</span>
+	<span style="color:#a6e22e">Nested</span>  <span style="color:#a6e22e">Nested</span> <span style="color:#e6db74">`json:&#34;nested&#34;`</span>
+}
+
+<span style="color:#75715e">// Nested is an embedded structure within Example
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Nested</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">IsIt</span>        <span style="color:#66d9ef">bool</span>   <span style="color:#e6db74">`json:&#34;isit&#34;`</span>
+	<span style="color:#a6e22e">Description</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;description&#34;`</span>
+}
+</code></pre></div><p>In our struct, we can see there is a <code>Name</code> field defined as a string. We can also see we are using the JSON parsers tags to associate the <code>Name</code> struct field with the <code>name</code> JSON field. These definitions are essential, the tags help the JSON parser figure out where a JSON field&rsquo;s data needs to go, and the type within the struct is what enforces whether the parser can populate the JSON data within that field.</p>
+<p>When parsing JSON with structs, all the work to perform type assertions is upfront, a safer and more comfortable way of working with JSON. To drive this point home, we can look at how easy it is to access the other JSON elements via structs.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#75715e">// Print the name
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Name is %s\n&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Name</span>)
+
+	<span style="color:#75715e">// Print the Numbers
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Numbers include&#34;</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Numbers</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34; %d&#34;</span>, <span style="color:#a6e22e">v</span>)
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
+
+	<span style="color:#75715e">// Print the Description
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Description is %s&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Nested</span>.<span style="color:#a6e22e">Description</span>)
+</code></pre></div><p>As we can see, the way to access data is simple. Using structs, we can use the data assuming it is either there or, worst case, a default value such as an empty list or string.</p>
+<p>With it being so easy to use structs, it might seem like we should always use structs, but it&rsquo;s not that simple.</p>
+<h2 id="summary-when-to-use-maps-vs-structs">Summary: When to use Maps vs. Structs<a hidden class="anchor" aria-hidden="true" href="#summary-when-to-use-maps-vs-structs">#</a></h2>
+<p>As we saw from this article, using structs are a safe and easy way to access JSON data. We can also see that using maps is generally unsafe and require extra work to use the data safely once parsed.</p>
+<p>So why ever use maps instead of structs? The answer is simple.</p>
+<p>When using structs, we must define every element within the JSON into the struct. We have to know the field name and data type of each JSON element while writing our code. This limit is sufficient for most use cases, APIs, configuration, or anything else where the data names and types are static.</p>
+<p>However, there are times when we don&rsquo;t know the JSON structure in advance when we need to parse an unknown JSON; that&rsquo;s where maps come in handy. An example of this could be an API where the server must respond to the client with all the original request elements. If we used a struct for this case, the parser would drop any unknown fields.</p>
+<p>While use cases that require maps are somewhat limited, they exist, and it&rsquo;s useful to know when and when not to use this method.</p>
+
+
+  </div>
+  <footer class="post-footer">
+  </footer><div id="disqus_thread"></div>
+<script>
+    
+
+    
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  
+    this.page.identifier = PAGE_IDENTIFIER; 
+    };
+    
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://adam-profile.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2021 <a href="http://example.org/">Adam Ibnu</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+    menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
