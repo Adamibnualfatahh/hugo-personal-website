@@ -2,7 +2,7 @@
 title: "E-pilketos"
 date: 2021-10-04T14:14:08+07:00
 comments: true 
-author: Adam Ibnu
+author: ["Adam Ibnu", "Fajar Rian", "Rizal Jayan"]
 ---
 
 >Projek ini saya buat untuk memenuhi tugas kelompok pembuatan project berbasis web/desktop
