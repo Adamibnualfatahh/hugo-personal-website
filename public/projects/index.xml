@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Projects on Adam Ibnu</title>
-    <link>http://example.org/projects/</link>
+    <link>http://adampblog.netlify.app/projects/</link>
     <description>Recent content in Projects on Adam Ibnu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Aug 2021 21:11:43 +0700</lastBuildDate><atom:link href="http://example.org/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Aug 2021 21:11:43 +0700</lastBuildDate><atom:link href="http://adampblog.netlify.app/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Info Film</title>
-      <link>http://example.org/projects/info/</link>
+      <link>http://adampblog.netlify.app/projects/info/</link>
       <pubDate>Tue, 17 Aug 2021 21:11:43 +0700</pubDate>
       
-      <guid>http://example.org/projects/info/</guid>
+      <guid>http://adampblog.netlify.app/projects/info/</guid>
       <description>Projek ini saya buat ketika belajar tentang API , saya buat web ini dengan bantuan framework dari bootstrap dan menggunakan teknologi ajax
  Silahkan dicoba https://www.adamibnu.xyz</description>
     </item>
