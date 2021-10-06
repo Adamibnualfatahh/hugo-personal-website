@@ -2,29 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://adampblog.netlify.app/</loc>
+    <loc>http://www.adamibnu.xyz/</loc>
     <lastmod>2021-08-23T11:16:57+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/blog/</loc>
+    <loc>http://www.adamibnu.xyz/blog/</loc>
     <lastmod>2021-08-23T11:16:57+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/create-html-in-php/</loc>
+    <loc>http://www.adamibnu.xyz/create-html-in-php/</loc>
     <lastmod>2021-08-23T11:16:57+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/membuat-css-di-dalam-html/</loc>
+    <loc>http://www.adamibnu.xyz/membuat-css-di-dalam-html/</loc>
     <lastmod>2021-08-21T05:48:22+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/projects/info/</loc>
+    <loc>http://www.adamibnu.xyz/projects/info/</loc>
     <lastmod>2021-08-17T21:11:43+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/projects/</loc>
+    <loc>http://www.adamibnu.xyz/projects/</loc>
     <lastmod>2021-08-17T21:11:43+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/learn-json-go/</loc>
+    <loc>http://www.adamibnu.xyz/learn-json-go/</loc>
     <lastmod>2021-08-17T20:49:48+07:00</lastmod>
   </url><url>
-    <loc>http://adampblog.netlify.app/categories/</loc>
+    <loc>http://www.adamibnu.xyz/categories/</loc>
   </url><url>
-    <loc>http://adampblog.netlify.app/tags/</loc>
+    <loc>http://www.adamibnu.xyz/tags/</loc>
   </url>
 </urlset>
