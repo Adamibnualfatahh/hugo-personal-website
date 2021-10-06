@@ -1,4 +1,4 @@
-baseURL = 'https://adampblog.netlify.app/'
+baseURL = "https://adampblog.netlify.app/"
 languageCode = 'en-us'
 title = 'Adam Ibnu'
 theme = "PaperMod"
