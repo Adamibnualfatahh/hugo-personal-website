@@ -10,7 +10,7 @@
     other: "{{ .Count }} min"
 
 - id: toc
-  translation: "Materi"
+  translation: "Daftar Isi"
 
 - id: translations
   translation: "Translations"

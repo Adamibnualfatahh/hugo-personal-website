@@ -29,8 +29,14 @@ Setelah itu kalian letakkan folder ke dalam directori Xampp/htdocs/
 > ### 3: Konfigurasi Base URL
 
 Setelah kalian masukan file kedalam htdocs sekarang kalian buka text editor kalian dan buka file tadi kedalam text editor kesayangan kalian.
-Selanjutnya kalian buka bagian application/config/config.php cari kode `$config['base_url'] = '';`
-dan ubahlah menjadi `$config['base_url'] = 'http://localhost/namafile';`.
+Selanjutnya kalian buka bagian application/config/config.php cari kode 
+```php
+$config['base_url'] = '';
+```
+dan ubahlah menjadi 
+```php 
+$config['base_url'] = 'http://localhost/namafile';
+```
 
 Nilai tersebut harus sesuai dengan alamat/nama folder yang kalian tentukan ketika anda menyalin file codeigniter ke dalam folder root web server kalian
 

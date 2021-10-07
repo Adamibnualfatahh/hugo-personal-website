@@ -20,12 +20,17 @@ Saat ini sudah banyak web-web besar yang menggunakan Markdown seperti GitHub, re
 Kelebihan menggunakan Markdown adalah format penulisannya yang sangat manusiawi sehingga sangat mudah sekali untuk dibaca dan ditulis. Dengannya pula kita tidak perlu lagi dipusingkan dengan styling ketika menulis konten dan bisa fokus pada konten.
 
 ### Contoh:
-``` Aku *sedang* belajar **menulis** dengan[markdown](https://en.wikipedia.org/wiki/Markdown). ```
+```markdown
+ Aku *sedang* belajar **menulis** dengan [markdown](https://en.wikipedia.org/wiki/Markdown). 
+ ```
+
 Teks ini akan dikonversi ke HTML menjadi seperti ini:
 
-> Aku sedang belajar menulis dengan markdown
+>  Aku *sedang* belajar **menulis** dengan [markdown](https://en.wikipedia.org/wiki/Markdown).
 
- `Aku <em>sedang</em> belajar <strong>menulis</strong> dengan <ahref="https://en.wikipedia.org/wiki/Markdown">markdown</a>. `
+ ```html
+ Aku <em>sedang</em> belajar <strong>menulis</strong> dengan <ahref="https://en.wikipedia.org/wiki/Markdown">markdown</a>. 
+ ```
 
  ![](https://mdg.imgix.net/assets/images/book-cover.jpg?auto=format&fit=clip&q=40&w=1080)
  **[Dapatkan Buku](https://www.markdownguide.org/book/)**
