@@ -1,3 +1,5 @@
-# BLOG
-Personal Website | | Powered by Hugo
+# Personal Website
+
+Built with hugo.
+> Please report errors / bugs if you find any
 
