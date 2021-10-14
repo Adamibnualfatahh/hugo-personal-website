@@ -1,13 +1,13 @@
 ---
 title: "E-pilketos"
 date: 2021-10-04T14:14:08+07:00
+description: "Projek ini saya buat untuk memenuhi tugas kelompok pembuatan project berbasis web/desktop"
 comments: true 
 author: ["Adam Ibnu", "Fajar Rian", "Rizal Jayan"]
+cover:
+    image: "/img/First.png"
+    relative: true
 ---
-
->Projek ini saya buat untuk memenuhi tugas kelompok pembuatan project berbasis web/desktop
-web ini saya buat bersama 2 teman saya : Fajar | Rizal
-
 ## APA ITU E-PILKETOS?
 E-PILKETOS Adalah Web Yang Dibuat Untuk Pemilihan Ketua OSIS.
 Web Ini Dibuat Untuk Mencegah Kerumunan Di Masa Pandemi COVID-19

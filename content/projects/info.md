@@ -1,6 +1,9 @@
 ---
 title: "Info Film"
 date: 2021-08-17T21:11:43+07:00
+cover:
+    image: "/img/infofilm.jpeg"
+    relative: true
 ---
 
 

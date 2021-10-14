@@ -1,0 +1,22 @@
+baseURL = "https://www.adamibnu.xyz/"
+languageCode = 'en-us'
+title = 'Adam Ibnu'
+theme = "PaperMod"
+[permalinks]  
+    blog = ":slug"
+    favicon = "Adam.png"
+
+    buttons:
+      - { name: Blog, url: "/posts" }
+      - { name: About, url: "/about" }
+
+  socialIcons: # optional
+    - { name: "LinkedIn", url: "https://www.linkedin.com/" }
+    - { name: "Github", url: "https://github.com/" }
+    - {
+        name: "Stackoverflow",
+        url: "",
+      }
+    - { name: "Facebook", url: "https://facebook.com/" }
+    - { name: "Twitter", url: "https://twitter.com/" }
+    - { name: "Mastodon", url: "https://fosstodon.org/" }
