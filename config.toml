@@ -4,4 +4,3 @@ title = 'Adam Ibnu'
 theme = "PaperMod"
 [permalinks]  
     blog = ":slug"
-    favicon = "Adam.png"
