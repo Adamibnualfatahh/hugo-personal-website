@@ -15,3 +15,5 @@ cover:
 
 
 https://info-film.netlify.app
+
+Hanya Deskripsi film bukan menyebarkan video bajakan .
